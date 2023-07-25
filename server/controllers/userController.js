@@ -1,4 +1,4 @@
-import db from '../database/cloudModel';
+import db from '../database/cloudModel.js';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -7,22 +7,28 @@ import bcrypt from 'bcryptjs';
  */
 
 const userController = {
-  createUser: async (
-    req,
-    res,
-    next
-  )=> {
+  createUser: async (req, res, next) => {
+    if(res.locals.duplicated) return next();
     try {
-      const { displayName, user, pass }=
-        req.body;
+      const { displayName, user, pass } = req.body;
       // hash password
       const hashedPassword = await bcrypt.hash(pass, 10);
-
+      // remove original password after hash it
+      delete req.body.pass;
       const createUser =
-        'INSERT INTO users (display_name, username, hashed_password) VALUES ($1, $2, $3) RETURNING *;';
+        'INSERT INTO users (displayName, user1, hashedPassword) VALUES ($1, $2, $3) RETURNING *;';
       const userDetails = [displayName, user, hashedPassword];
-      const createdUser = await db.query(createUser, userDetails);
-      res.locals.user = createdUser.rows[0];
+      const createdUser = await db.query(createUser, userDetails).catch((err) => {
+        console.error('Error executing query:', err);
+        throw err;
+      });
+      // declare const var uniqueId and assign the primary key that db generated as a value
+      const uniqueId = createdUser.rows[0].id
+      console.log('Genterated unique Id from database => ', uniqueId)
+      // sets cookie with cookieID key and uniqueId as it's value
+      res.cookie('cookieID', uniqueId)
+      // data that will passed to the frontend
+      res.locals.user = { username: user, displayName: displayName };
       return next();
     } catch (err) {
       return next({

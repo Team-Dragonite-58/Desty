@@ -1,22 +1,23 @@
-import db from '../database/cloudModel';
+import db from '../database/cloudModel.js';
 
 /**
  * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
  */
 const signupController = {
   usernameCheck: (req, res, next) => {
-    const { username } = req.body;
+    const { user } = req.body;
     // SQL query to check if username already exists in datebase, not unique.
-    console.log('username -> ab to query', username);
-    const checkUsernameExists = 'SELECT * FROM users WHERE username=$1;';
+    console.log('username -> ab to query', user);
+    const checkUsernameExists = 'SELECT * FROM users WHERE user1=$1;';
 
-    db.query(checkUsernameExists, [username])
+    db.query(checkUsernameExists, [user])
       .then((data) => {
         // if row 0 or username already exists, throw error
         console.log('data.rows: ', data.rows);
         console.log('data.rows[0]: ', data.rows[0]);
         if (data.rows[0]) {
-          throw { message: 'Username already exists.' };
+          res.locals.duplicated = ({ message: 'Username already exists.' });
+          return next()
         } else {
           return next();
         }

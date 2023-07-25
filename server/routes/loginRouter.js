@@ -3,7 +3,7 @@
  * @description Routes all requests to login endpoint
  */
 import { Router } from 'express';
-import userController from '../controllers/userController';
+import userController from '../controllers/userController.js';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ const router = Router();
 router.post(
   '/',
   userController.verifyUser,
-  userController.addCookie,
+  // userController.addCookie,
   (req, res) => {
     return res.status(201).json(res.locals.user);
   }

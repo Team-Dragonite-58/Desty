@@ -1,4 +1,4 @@
-import db from '../database/cloudModel';
+import db from '../database/cloudModel.js';
 import bcrypt from 'bcryptjs';
 
 /**

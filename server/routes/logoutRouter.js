@@ -3,7 +3,7 @@
  * @description Routes all requests to logout endpoint
  */
 import { Router } from 'express';
-import userController from '../controllers/userController';
+import userController from '../controllers/userController.js';
 const router = Router();
 
 // ==========================================================
