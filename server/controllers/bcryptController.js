@@ -21,7 +21,7 @@ const bcryptController = {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
-            err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
+            err: 'An error occurred creating hash with bcrypt. See bcryptController.hashPassword.',
           },
         });
       });

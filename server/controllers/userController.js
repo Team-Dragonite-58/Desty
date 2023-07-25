@@ -1,34 +1,35 @@
 import db from '../database/cloudModel.js';
 import bcrypt from 'bcryptjs';
 
-/**
- * @description Contains middleware that creates new user in database, gets all users from database verifies if user exists before sending back user data to login component
- * v12.0 implemented cookies for user sessions and deleted all system admin implementaion since it was nonfunctional
- */
-
 const userController = {
   createUser: async (req, res, next) => {
-    if(res.locals.duplicated) return next();
+    if (res.locals.duplicated) return next();
     try {
-      const { displayName, user, pass } = req.body;
+      const { displayName, user, pass, currentLocation } = req.body;
       // hash password
       const hashedPassword = await bcrypt.hash(pass, 10);
       // remove original password after hash it
       delete req.body.pass;
       const createUser =
-        'INSERT INTO users (displayName, user1, hashedPassword) VALUES ($1, $2, $3) RETURNING *;';
-      const userDetails = [displayName, user, hashedPassword];
-      const createdUser = await db.query(createUser, userDetails).catch((err) => {
-        console.error('Error executing query:', err);
-        throw err;
-      });
+        'INSERT INTO users (display_name, user1, hashed_password, current_location) VALUES ($1, $2, $3, $4) RETURNING *;';
+      const userDetails = [displayName, user, hashedPassword, currentLocation];
+      const createdUser = await db
+        .query(createUser, userDetails)
+        .catch((err) => {
+          console.error('Error executing query:', err);
+          throw err;
+        });
       // declare const var uniqueId and assign the primary key that db generated as a value
-      const uniqueId = createdUser.rows[0].id
-      console.log('Genterated unique Id from database => ', uniqueId)
+      const uniqueId = createdUser.rows[0].id;
+      console.log('Generated unique Id from database => ', uniqueId);
       // sets cookie with cookieID key and uniqueId as it's value
-      res.cookie('cookieID', uniqueId)
+      res.cookie('cookieID', uniqueId);
       // data that will passed to the frontend
-      res.locals.user = { username: user, displayName: displayName };
+      res.locals.user = {
+        username: user,
+        displayName: displayName,
+        currentLocation: currentLocation,
+      };
       return next();
     } catch (err) {
       return next({
@@ -80,24 +81,30 @@ const userController = {
   },
 
   verifyUser: (req, res, next) => {
-    const { username, password } = req.body;
+    const { user, pass } = req.body;
     // using username we create a query string to grab that user
-    const getUser = 'SELECT * FROM users WHERE username=$1;';
+    const getUser = 'SELECT * FROM users WHERE user1=$1;';
     // using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
-    db.query(getUser, [username])
+    db.query(getUser, [user])
       .then(async (data) => {
-        const match = await bcrypt.compare(password, data.rows[0].password);
-        if (!data.rows[0] || !match) {
-          return next({
-            log: "Error in userController's verifyUser method",
-            status: 400,
-            message: {
-              err: 'Unable to verify user credentials.',
-            },
-          });
+        if (!Array.isArray(data.rows) || data.rows.length === 0) {
+          res.locals.user = { err: 'Unable to verify user credentials.' };
+          return next();
         }
+        const match = await bcrypt.compare(pass, data.rows[0].hashed_password);
+        if (!match) {
+          res.locals.user = { err: 'Unable to verify user credentials.' };
+          return next();
+        }
+
         const verifiedUser = data.rows[0];
-        res.locals.user = verifiedUser;
+        // sets cookie with cookieID key and uniqueId as it's value
+        res.cookie('cookieID', data.rows[0].id);
+        res.locals.user = {
+          username: verifiedUser.user1,
+          displayName: verifiedUser.display_name,
+          currentLocation: verifiedUser.current_location,
+        };
         return next();
       })
       .catch((err) => {
@@ -125,7 +132,7 @@ const userController = {
 
   // remove cookie on logout
   removeCookie: (req, res, next) => {
-    res.clearCookie('loggedIn');
+    res.clearCookie('cookieID');
     res.locals.loggedOut = true;
     return next();
   },

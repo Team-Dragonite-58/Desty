@@ -16,8 +16,8 @@ const signupController = {
         console.log('data.rows: ', data.rows);
         console.log('data.rows[0]: ', data.rows[0]);
         if (data.rows[0]) {
-          res.locals.duplicated = ({ message: 'Username already exists.' });
-          return next()
+          res.locals.duplicated = { message: 'Username already exists.' };
+          return next();
         } else {
           return next();
         }
@@ -27,7 +27,7 @@ const signupController = {
           log: `Error in signupController usernameCheck: ${err}`,
           status: 409,
           message: {
-            err: `An error occured while checking if username exists. See signupController.usernameCheck., ${err.message}`,
+            err: `An error occurred while checking if username exists. See signupController.usernameCheck., ${err.message}`,
           },
         });
       });
