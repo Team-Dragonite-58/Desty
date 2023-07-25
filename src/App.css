@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-  background: #A8DADC;
+body {
+  background: #a8dadc;
+}
+
+#logo {
+  font-family: 'Lexend Zetta', sans-serif;
 }
 
 .App {
