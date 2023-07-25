@@ -2,7 +2,7 @@
  * @module Logout Router
  * @description Routes all requests to logout endpoint
  */
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import userController from '../controllers/userController';
 const router = Router();
 
@@ -13,7 +13,7 @@ const router = Router();
 router.post(
   '/',
   userController.removeCookie,
-  (req: Request, res: Response): Response => {
+  (req, res) => {
     return res.status(201).json({ loggedOut: 'true' });
   }
 );

@@ -2,7 +2,7 @@
  * @module Login Router
  * @description Routes all requests to login endpoint
  */
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import userController from '../controllers/userController';
 
 const router = Router();
@@ -16,7 +16,7 @@ router.post(
   '/',
   userController.verifyUser,
   userController.addCookie,
-  (req: Request, res: Response): Response => {
+  (req, res) => {
     return res.status(201).json(res.locals.user);
   }
 );
@@ -24,7 +24,7 @@ router.post(
 router.get(
   '/checkCookie',
   userController.checkCookie,
-  (req: Request, res: Response): Response => {
+  (req, res) => {
     return res.status(200).json(res.locals.signedIn);
   }
 );

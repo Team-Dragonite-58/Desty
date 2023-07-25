@@ -1,7 +1,6 @@
 import { Pool } from 'pg';
-import { SqlQuery } from '../../types';
 
-const pool: Pool = new Pool({
+const pool = new Pool({
   host: 'db',
   user: 'postgres',
   password: 'postgres',
@@ -9,7 +8,7 @@ const pool: Pool = new Pool({
   port: 5432,
 });
 
-const db: SqlQuery = {
+const db = {
   query: (text, params, callback) => {
     console.log('Connected to DB...', text);
     return pool.query(text, params, callback);
