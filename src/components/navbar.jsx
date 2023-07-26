@@ -1,4 +1,7 @@
 import React from 'react';
+import Popup from 'reactjs-popup';
+import LoginPopup from './loginPopup';
+import SignupPopup from './signupPopup';
 
 export default function Navbar() {
   return (
@@ -8,11 +11,20 @@ export default function Navbar() {
           DESTY
         </div>
         <div className="flex justify-between">
-          <div className="bg-[#F1FAEE] p-2 mr-1 rounded-lg">
-            <a href="">Log In</a>
-          </div>
+          <Popup
+            trigger={
+              <button className="bg-[#F1FAEE] p-2 mr-1 rounded-lg">
+                Log In
+              </button>
+            }
+            modal
+          >
+            <LoginPopup></LoginPopup>
+          </Popup>
           <div className="p-2 ml-1">
-            <a href="">Sign Up</a>
+            <Popup trigger={<button>Sign Up</button>} modal>
+              <SignupPopup></SignupPopup>
+            </Popup>
           </div>
         </div>
       </nav>

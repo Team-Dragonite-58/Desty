@@ -1,13 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Popup from 'reactjs-popup';
+import EditPopup from './editPopup';
+import EditLocationPopup from './editLocationPopup';
 
 export default function UserInfo() {
   const [currentLocation, setCurrentLocation] = useState('Orange County, CA');
   const [displayName, setDisplayName] = useState('Justin Wong');
   const [userName, setUserName] = useState('garrettwoogs');
-  
 
-  useEffect(()=>{
+  useEffect(() => {
     const getUser = async () => {
       try {
         const response = await fetch('/placeholder'); //uses cookie to get user information
@@ -17,8 +19,8 @@ export default function UserInfo() {
         console.log(error);
       }
     };
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
   return (
     <div className="flex justify-between h-80 items-center px-20">
@@ -33,17 +35,29 @@ export default function UserInfo() {
           <h3 className="text-2xl">@{userName}</h3>
         </div>
         <div>
-          <button>
-            <img
-              src={require('../assets/editbutton.png')}
-              alt="A pencil in a box"
-            />
-          </button>
+          <Popup
+            trigger={
+              <button>
+                <img
+                  src={require('../assets/editbutton.png')}
+                  alt="A pencil in a box"
+                />
+              </button>
+            }
+          >
+            <EditPopup></EditPopup>
+          </Popup>
         </div>
       </div>
-      <button className="border-solid border border-[#F1FAEE] rounded p-2">
-        📍{currentLocation}
-      </button>
+      <Popup
+        trigger={
+          <button className="border-solid border border-[#F1FAEE] rounded p-2">
+            📍{currentLocation}
+          </button>
+        }
+      >
+        <EditLocationPopup></EditLocationPopup>
+      </Popup>
     </div>
   );
 }

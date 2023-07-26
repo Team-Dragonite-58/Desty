@@ -17,6 +17,7 @@ export default function LocationCard() {
         </div>
       }
       modal
+      lockScroll
       >
       <CardPopup />
     </Popup>

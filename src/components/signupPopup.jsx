@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 
-export default function SignupPopup({setDisplayName}) {
-  const usernameRef = useRef()
-  const displayNameRef = useRef()
-  const passwordRef = useRef()
-  const currentLocationRef = useRef()
+export default function SignupPopup({ setDisplayName }) {
+  const usernameRef = useRef();
+  const displayNameRef = useRef();
+  const passwordRef = useRef();
+  const currentLocationRef = useRef();
+  const pfpRef = useRef();
 
   const signUp = async (e) => {
     e.preventDefault();
@@ -20,7 +21,8 @@ export default function SignupPopup({setDisplayName}) {
           user: usernameRef.current.value,
           pass: passwordRef.current.value,
           displayName: displayNameRef.current.value,
-          current_location: currentLocationRef.current.value
+          currentLocation: currentLocationRef.current.value,
+          profilePicture: pfpRef.current.value,
         }),
       };
       const data = await fetch('/placeholder', settings);
@@ -31,19 +33,46 @@ export default function SignupPopup({setDisplayName}) {
     }
   };
   return (
-    <div>
-      SignupPopup
-      <form onSubmit={signUp}>  
-        <input ref={usernameRef} type= 'userName' placeholder='Username' />
-        <br></br>
-        <input ref={displayNameRef} type='displayName' placeholder='Display Name' />
-        <br></br>
-        <input ref={passwordRef} type='password' placeholder='Super Secret Password' />
-        <br></br>
-        <input ref={currentLocationRef} type='currentLocation' placeholder='Where are you right now?' />
-        <br></br>
-        <button type='submit'>Login</button>
+    <div className="bg-[#F1FAEE] flex flex-col items-center p-5 gap-5 rounded-lg">
+      Sign Up
+      <form className="flex flex-col gap-2" onSubmit={signUp}>
+        <input
+          className="bg-[#CDD9CE] p-2 rounded-md"
+          ref={usernameRef}
+          type="userName"
+          placeholder="Username"
+        />
+        <input
+          className="bg-[#CDD9CE] p-2 rounded-md"
+          ref={displayNameRef}
+          type="displayName"
+          placeholder="Display Name"
+        />
+        <input
+          className="bg-[#CDD9CE] p-2 rounded-md"
+          ref={passwordRef}
+          type="password"
+          placeholder="Super Secret Password"
+        />
+        <input
+          className="bg-[#CDD9CE] p-2 rounded-md"
+          ref={currentLocationRef}
+          type="currentLocation"
+          placeholder="Where are you right now?"
+        />
+        <input
+          className="bg-[#CDD9CE] p-2 rounded-md"
+          ref={pfpRef}
+          type="profilePicture"
+          placeholder="Profile Picture (URL)"
+        />
+        <button
+          className="rounded-md bg-[#1D3557] text-[#F1FAEE]"
+          type="submit"
+        >
+          Sign Up
+        </button>
       </form>
     </div>
-  )
+  );
 }
