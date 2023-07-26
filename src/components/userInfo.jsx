@@ -5,39 +5,23 @@ export default function UserInfo() {
   const [currentLocation, setCurrentLocation] = useState('Orange County, CA');
   const [displayName, setDisplayName] = useState('Justin Wong');
   const [userName, setUserName] = useState('garrettwoogs');
+  
 
-  const getUser = async () => {
-    try {
-      const response = await fetch('/placeholder');
-    } catch (error) {
-      console.log('problem with getUser get request');
-      console.log(error);
-    }
-  };
-
-  const changeName = async (e) => {
-    e.preventDefault();
-    try {
-      const settings = {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: 'placeholder',
-          newUser: 'placeholder',
-        }),
-      };
-      const data = await fetch('/placeholder', settings);
-    } catch (e) {
-      console.log('Problem with changeName patch request');
-      console.log(e.message);
-    }
-  };
+  useEffect(()=>{
+    const getUser = async () => {
+      try {
+        const response = await fetch('/placeholder'); //uses cookie to get user information
+        //display name, userName, and currentLocation are gotten here
+      } catch (error) {
+        console.log('problem with getUser get request');
+        console.log(error);
+      }
+    };
+    getUser()
+  }, [])
 
   return (
-    <div className="flex justify-between h-80 items-center w-9/12 px-20">
+    <div className="flex justify-between h-80 items-center px-20">
       <div className="flex items-center gap-10">
         <img
           className="h-52 w-52 rounded-full"

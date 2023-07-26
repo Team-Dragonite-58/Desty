@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center content-center">
       <Navbar />
-      <div className="flex flex-col content-center justify-center flex-wrap">
+      <div className=" w-3/4 flex flex-col content-center justify-center flex-wrap">
         <UserInfo />
         <Feed />
         <Footer />
