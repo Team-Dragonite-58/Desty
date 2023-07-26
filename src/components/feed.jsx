@@ -42,7 +42,7 @@ export default function Feed() {
   //
 
   return (
-    <div className="border-b border-t border-b-[#F1FAEE] h-screen">
+    <div className="border-b border-t border-b-[#F1FAEE] h-fit pb-16">
       <div className="grid grid-cols-4 text-[#F1FAEE]">
         <button
           onClick={() => setTag('all')}
@@ -70,10 +70,6 @@ export default function Feed() {
         </button>
       </div>
       <div className="grid grid-cols-4 gap-5">
-        <LocationCard />
-        <LocationCard />
-        <LocationCard />
-        <LocationCard />
         <LocationCard />
         <Popup
           trigger={
