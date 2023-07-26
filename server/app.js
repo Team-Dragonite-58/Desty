@@ -3,9 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import loginRouter from './routes/loginRouter.js';
-import logoutRouter from './routes/logoutRouter.js';
 import signupRouter from './routes/signupRouter.js';
 import locationRouter from './routes/locationRouter.js';
+import userInfoRouter from './routes/userInfoRouter.js';
 
 // const path = require('path');
 //import path from 'path';
@@ -26,8 +26,8 @@ app.get('/', (req, res) => {
 
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
-app.use('/getLocation', locationRouter);
+app.use('/location', locationRouter);
+app.use('/userinfo', userInfoRouter);
 
 // Handling requests to unknown endpoints...
 app.use((req, res) => {
@@ -40,7 +40,7 @@ app.use((req, res) => {
 app.use(
   '/',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (err, req, res) => {
+  (err, req, res, next) => {
     const defaultErr = {
       log: 'Express error handler caught unknown middleware error',
       status: 500,

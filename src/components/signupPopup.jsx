@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 
-export default function SignupPopup({ setDisplayName }) {
+export default function SignupPopup({ setDisplayName, setCurrentLocation, setUserName, setID, setProfilePic }) {
   const usernameRef = useRef();
   const displayNameRef = useRef();
   const passwordRef = useRef();
@@ -25,8 +25,14 @@ export default function SignupPopup({ setDisplayName }) {
           profilePicture: pfpRef.current.value,
         }),
       };
-      const data = await fetch('/placeholder', settings);
-      //utilize setDisplayName
+      const data = await fetch('http://localhost:3001/signup', settings);
+      const response = await data.json()
+      console.log(response)
+      setDisplayName(response.displayName)
+      setUserName(response.username)
+      setCurrentLocation(response.currentLocation)
+      setID(response.id)
+      setProfilePic(response.profilePicture)
     } catch (e) {
       console.log('Problem with signUp post request');
       console.log(e.message);

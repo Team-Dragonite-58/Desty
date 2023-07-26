@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 
-export default function LoginPopup({ setDisplayName }) {
+export default function LoginPopup({ setDisplayName, setCurrentLocation, setUserName, setID, setProfilePic }) {
   const usernameRef = useRef();
   const passwordRef = useRef();
 
@@ -16,10 +16,17 @@ export default function LoginPopup({ setDisplayName }) {
         },
         body: JSON.stringify({
           user: usernameRef.current.value,
-          pass: usernameRef.current.value,
+          pass: passwordRef.current.value,
         }),
       };
-      const data = await fetch('/placeholder', settings);
+      const data = await fetch('http://localhost:3001/login', settings);
+      const response = await data.json();
+      setDisplayName(response.displayName);
+      setUserName(response.username);
+      setCurrentLocation(response.currentLocation);
+      setID(response.id);
+      setProfilePic(response.profilePicture);
+      console.log(response);
       //utilize setDisplayName
     } catch (e) {
       console.log('Problem with login post request');
@@ -30,7 +37,7 @@ export default function LoginPopup({ setDisplayName }) {
   return (
     <div className="bg-[#F1FAEE] flex flex-col items-center p-5 gap-5 rounded-lg">
       Login
-      <form className="flex flex-col gap-2" onSubmit={login}>
+      <form className="flex flex-col gap-2" onSubmit={(e) => login(e)}>
         <input
           className="bg-[#CDD9CE] p-2 rounded-md"
           ref={usernameRef}
