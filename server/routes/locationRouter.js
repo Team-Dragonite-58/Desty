@@ -16,8 +16,12 @@ router.post('/', locationController.createLocation, (req, res) => {
   return res.status(201).json(res.locals.locationsList);
 });
 
-router.get('/', locationController.getLocation, (req, res) => {
-  return res.status(201).json(res.locals.location);
+router.post('/get', locationController.getLocation, (req, res) => {
+  return res.status(201).json(res.locals.locations);
+});
+
+router.delete('/delete', locationController.deleteLocation, locationController.getLocation, (req, res) => {
+  return res.status(201).json(res.locals.locations);
 });
 
 export default router;

@@ -37,10 +37,6 @@ export default function Feed({
   //   getLocations();
   // }, [tag]);
 
-  useEffect(() => {
-    //logic for constructing each location card
-  }, [feedElements]);
-
   //object from backend type: all, undecided, upcoming and visited
   //[visited] [upcoming] [undecided] [all]
   //4 states where one will be true at a time

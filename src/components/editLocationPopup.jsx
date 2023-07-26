@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 
-export default function EditLocationPopup({ setDisplayName }) {
+export default function EditLocationPopup({ setCurrentLocation, currentLocation, userId }) {
   const currentLocationRef = useRef();
 
   const edit = async (e) => {
@@ -14,10 +14,13 @@ export default function EditLocationPopup({ setDisplayName }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          currentLocation: currentLocationRef.current.value,
+          id: userId,
+          current_location: currentLocationRef.current.value,
         }),
       };
-      const data = await fetch('/placeholder', settings);
+      const data = await fetch('http://localhost:3001/userinfo/currentlocation', settings);
+      const response = await data.json();
+      setCurrentLocation(currentLocationRef.current.value)
       //utilize setDisplayName
     } catch (e) {
       console.log('Problem with editing location patch request');

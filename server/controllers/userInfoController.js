@@ -4,15 +4,12 @@ import db from '../database/cloudModel.js';
 //WHERE CustomerID = 1;
 const userInfoController = {
   updateDisplayName: async (req, res, next) => {
-    const { displayName } = req.body;
-    // destructuring the cookieID from req.cookies
-    const usersPK = req.cookies.cookieID;
+    const { displayName, id } = req.body;
     const queryString =
       'UPDATE users SET display_name =$1 WHERE id=$2 RETURNING *';
-    db.query(queryString, [displayName, usersPK])
-      .then(async (data) => {
-        console.log(data.rows);
-        res.locals.updatedInfo = data.rows[0].display_name;
+    db.query(queryString, [displayName, id])
+      .then(async (data) => {      
+        res.locals.updatedInfo = data
         return next();
       })
       .catch((err) => {
@@ -25,14 +22,13 @@ const userInfoController = {
       });
   },
   updateCurrentLocation: async (req, res, next) => {
-    const { current_location } = req.body;
+    const { current_location, id } = req.body;
     // destructuring the cookieID from req.cookies
-    const usersPK = req.cookies.cookieID;
 
     const queryString =
       'UPDATE users SET current_location=$1 WHERE id=$2 RETURNING *';
 
-    db.query(queryString, [current_location, usersPK])
+    db.query(queryString, [current_location, id])
       .then((data) => {
         console.log(data.rows);
         res.locals.updatedInfo = data.rows[0].current_location;
