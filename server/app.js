@@ -27,7 +27,8 @@ app.get('/', (req, res) => {
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
-app.use('/getlocation', locationRouter);
+app.use('/location', locationRouter);
+app.use('/');
 
 // Handling requests to unknown endpoints...
 app.use((req, res) => {
