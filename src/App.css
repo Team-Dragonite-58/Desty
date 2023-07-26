@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: #a8dadc;
+}
+
+#logo {
+  font-family: 'Lexend Zetta', sans-serif;
+}
+
+#locationcard {
+  object-fit: cover;
+}
+
+#cardphoto {
+  object-fit: cover;
+}
+
 .App {
   text-align: center;
 }
@@ -40,3 +56,9 @@
     transform: rotate(360deg);
   }
 }
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
