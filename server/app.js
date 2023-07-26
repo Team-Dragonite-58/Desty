@@ -6,6 +6,7 @@ import loginRouter from './routes/loginRouter.js';
 import logoutRouter from './routes/logoutRouter.js';
 import signupRouter from './routes/signupRouter.js';
 import locationRouter from './routes/locationRouter.js';
+import userInfoRouter from './routes/userInfoRouter.js';
 
 // const path = require('path');
 //import path from 'path';
@@ -28,6 +29,7 @@ app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/location', locationRouter);
+app.use('/userinfo', userInfoRouter);
 
 // Handling requests to unknown endpoints...
 app.use((req, res) => {
