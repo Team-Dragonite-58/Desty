@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup';
 import EditPopup from './editPopup';
 import EditLocationPopup from './editLocationPopup';
 
-export default function UserInfo({displayName, userName, currentLocation, profilePic}) {
+export default function UserInfo({displayName, userName, currentLocation, profilePic, userId, setDisplayName, setCurrentLocation}) {
 
   return (
     <div className="flex justify-between h-80 items-center px-20">
@@ -29,7 +29,10 @@ export default function UserInfo({displayName, userName, currentLocation, profil
               </button>
             }
           >
-            <EditPopup></EditPopup>
+            <EditPopup          
+            userId={userId}
+          setDisplayName={setDisplayName}
+          displayName={displayName}></EditPopup>
           </Popup>
         </div>
       </div>
@@ -40,7 +43,11 @@ export default function UserInfo({displayName, userName, currentLocation, profil
           </button>
         }
       >
-        <EditLocationPopup></EditLocationPopup>
+        <EditLocationPopup          
+          userId={userId}
+          setCurrentLocation={setCurrentLocation}
+          currentLocation={currentLocation}
+        ></EditLocationPopup>
       </Popup>
     </div>
   );

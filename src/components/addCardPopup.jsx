@@ -26,10 +26,10 @@ export default function AddLocationPopup({ tag, setFeedElements, feedElements, u
       };
       const data = await fetch('http://localhost:3001/location', settings);
       const response = await data.json();
-      console.log(response);
+      console.log('created',response);
       //use setFeedElements here
       if(response.tag === tag || tag === 'All'){
-      const newCard = new LocationCard(response);
+      const newCard = new LocationCard(response, setFeedElements, feedElements, tag);
       const newArr = feedElements.slice();
       newArr.push(newCard);
       setFeedElements(newArr);

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 
-export default function CardPopup() {
+export default function CardPopup(locationUrl) {
   // need a poast request here to create a new item
   return (
     <div className="flex justify-center items-center rounded-xl">
@@ -11,17 +11,17 @@ export default function CardPopup() {
           <img
             id="cardphoto"
             className="w-fit rounded-l-xl"
-            src="https://lp-cms-production.imgix.net/2019-06/09a64fea2933f6da77ab07d671d1f678-south-korea.jpg"
-            alt="pic of korea"
+            src={locationUrl.locationUrl}
+            alt="pic of location"
           />
         </div>
         <div className="w-1/2 flex flex-col justify-between">
           <div className="flex flex-col">
             <div className="flex flex-row justify-between border-b border-b-[#A8DADC] p-5">
-              <div className="text-4xl">South Korea</div>
+              <div className="text-4xl">{locationUrl.locationName}</div>
               <Popup
                 trigger={
-                  <button className="w-10 h-10 rounded-full bg-[#457B9D]"></button>
+                  <button className={`w-10 h-10 rounded-full bg-[${locationUrl.color}]`}></button>
                 }
                 position="bottom center"
                 arrow={false}

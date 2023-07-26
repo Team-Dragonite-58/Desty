@@ -6,7 +6,7 @@ const locationController = {
     // destructuring the cookieID from req.cookies
     let queryString;
     let userDetails;
-    if (tag === 'all') {
+    if (tag === 'All') {
       queryString = 'SELECT * FROM "locations" WHERE user_id=$1;';
       userDetails = [id];
     } else {
@@ -15,7 +15,7 @@ const locationController = {
     }
     db.query(queryString, userDetails)
       .then(async (data) => {
-        console.log(data.rows);
+        console.log('data.rows', data.rows);
         res.locals.locations = data.rows;
         return next();
       })
@@ -28,10 +28,31 @@ const locationController = {
         });
       });
   },
+  deleteLocation: (req, res, next)=>{
+    const { location_id } = req.body;
+    console.log('req.body', req.body);
+    let queryText;
+      queryText = {
+        text: 'DELETE FROM locations WHERE location_id=$1',
+        values: [location_id]
+      }
+    db.query(queryText)
+      .then(async (data)=>{
+        next()
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in locationController: ${err}`,
+          message: {
+            err: 'An error occurred when deleting location data in database. See locationController',
+          },
+        });
+      });
+
+  },
 
   createLocation: (req, res, next) => {
     const { location, photo_url, tag, id } = req.body;
-    // destructuring the cookieID from req.cookies
 
     const queryString =
       'INSERT INTO locations (location_name, location_url, tag, user_id) VALUES ($1, $2, $3, $4) RETURNING *;';
