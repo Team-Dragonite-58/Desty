@@ -5,14 +5,21 @@ const userController = {
   createUser: async (req, res, next) => {
     if (res.locals.duplicated) return next();
     try {
-      const { displayName, user, pass, currentLocation } = req.body;
+      const { displayName, user, pass, currentLocation, profilePicture } =
+        req.body;
       // hash password
       const hashedPassword = await bcrypt.hash(pass, 10);
       // remove original password after hash it
       delete req.body.pass;
       const createUser =
-        'INSERT INTO users (display_name, user1, hashed_password, current_location) VALUES ($1, $2, $3, $4) RETURNING *;';
-      const userDetails = [displayName, user, hashedPassword, currentLocation];
+        'INSERT INTO users (display_name, user1, hashed_password, current_location, profile_pic) VALUES ($1, $2, $3, $4, $5) RETURNING *;';
+      const userDetails = [
+        displayName,
+        user,
+        hashedPassword,
+        currentLocation,
+        profilePicture,
+      ];
       const createdUser = await db
         .query(createUser, userDetails)
         .catch((err) => {
@@ -29,6 +36,7 @@ const userController = {
         username: user,
         displayName: displayName,
         currentLocation: currentLocation,
+        profilePicture: profilePicture,
       };
       return next();
     } catch (err) {
@@ -104,6 +112,7 @@ const userController = {
           username: verifiedUser.user1,
           displayName: verifiedUser.display_name,
           currentLocation: verifiedUser.current_location,
+          profilePicture: verifiedUser.profile_pic,
         };
         return next();
       })

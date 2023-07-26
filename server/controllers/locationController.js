@@ -15,8 +15,19 @@ const locationController = {
       userDetails = [usersPK, tag];
     }
     db.query(queryString, userDetails)
-      .then(async (data) => {})
-      .catch((err) => {});
+      .then(async (data) => {
+        console.log(data.rows);
+        res.locals.locations = data.rows;
+        return next();
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in userController newUser: ${err}`,
+          message: {
+            err: 'An error occurred getting locations in database. See locationController',
+          },
+        });
+      });
   },
 };
 
