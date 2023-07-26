@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import LocationCard from './locationcard';
 
-export default function AddLocationPopup({ tag, setFeedElements }) {
+export default function AddLocationPopup({ tag, setFeedElements, feedElements, userId }) {
   const locationNameRef = useRef();
   const locationURLRef = useRef();
   const locationTagRef = useRef();
@@ -20,15 +21,27 @@ export default function AddLocationPopup({ tag, setFeedElements }) {
           location: locationNameRef.current.value,
           photo_url: locationURLRef.current.value,
           tag: locationTagRef.current.value,
+          id: userId
         }),
       };
-      const data = await fetch('/placeholder', settings);
+      const data = await fetch('http://localhost:3001/location', settings);
+      const response = await data.json();
+      console.log(response);
       //use setFeedElements here
+      if(response.tag === tag || tag === 'All'){
+      const newCard = new LocationCard(response);
+      const newArr = feedElements.slice();
+      newArr.push(newCard);
+      setFeedElements(newArr);
+      }
     } catch (e) {
       console.log('Problem with addLocation post request');
       console.log(e.message);
     }
   };
+
+  
+
   return (
     <div className="bg-[#F1FAEE] flex flex-col items-center p-5 gap-5 rounded-lg">
       Add new location
@@ -36,20 +49,21 @@ export default function AddLocationPopup({ tag, setFeedElements }) {
         <input
           className="bg-[#CDD9CE] p-2 rounded-md"
           ref={locationNameRef}
-          type="userName"
+          type="text"
           placeholder="Location Name"
           required
         />
         <input
           className="bg-[#CDD9CE] p-2 rounded-md"
           ref={locationURLRef}
-          type="password"
+          type="text"
           placeholder="Location Photo URL"
           required
         />
         <select
           className="bg-[#CDD9CE] p-2 rounded-md"
-          name="Location Tag"
+          ref={locationTagRef}
+          name="LocationTag"
           id="cardtag"
           required
         >
@@ -58,7 +72,7 @@ export default function AddLocationPopup({ tag, setFeedElements }) {
           </option>
           <option value="Undecided">Undecided</option>
           <option value="Upcoming">Upcoming</option>
-          <option value="Undecided">Upcoming</option>
+          <option value="Visited">Visited</option>
         </select>
         <button
           className="rounded-md bg-[#1D3557] text-[#F1FAEE]"

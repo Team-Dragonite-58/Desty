@@ -22,8 +22,7 @@ const userController = {
       // declare const var uniqueId and assign the primary key that db generated as a value
       const uniqueId = createdUser.rows[0].id;
       console.log('Generated unique Id from database => ', uniqueId);
-      // sets cookie with cookieID key and uniqueId as it's value
-      res.cookie('cookieID', uniqueId);
+
       // data that will passed to the frontend
       res.locals.user = {
         username: user,
@@ -43,40 +42,30 @@ const userController = {
     }
   },
 
-  getAllUsers: (req, res, next) => {
-    if ('error' in res.locals) {
-      return next();
-    } else {
-      const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
-      db.query(allUsers)
-        .then((response) => {
-          res.locals.users = response.rows;
-          return next();
-        })
-        .catch((err) => {
-          return next({
-            log: `Error in userController getAllUsers: ${err}`,
-            message: {
-              err: 'An error occurred retrieving all users from database. See userController.getAllUsers.',
-            },
-          });
-        });
-    }
-  },
+  usernameCheck: (req, res, next) => {
+    const { user } = req.body;
+    // SQL query to check if username already exists in datebase, not unique.
+    console.log('username -> ab to query', user);
+    const checkUsernameExists = 'SELECT * FROM users WHERE user1=$1;';
 
-  getOneUser: (req, res, next) => {
-    const { _id } = req.body;
-    const oneUser = 'SELECT * FROM users WHERE _id = $1;';
-    db.query(oneUser, [_id])
-      .then((response) => {
-        res.locals.users = response.rows;
-        return next();
+    db.query(checkUsernameExists, [user])
+      .then((data) => {
+        // if row 0 or username already exists, throw error
+        console.log('data.rows: ', data.rows);
+        console.log('data.rows[0]: ', data.rows[0]);
+        if (data.rows[0]) {
+          res.locals.duplicated = { message: 'Username already exists.' };
+          return next();
+        } else {
+          return next();
+        }
       })
       .catch((err) => {
         return next({
-          log: `Error in userController getOneUser: ${err}`,
+          log: `Error in signupController usernameCheck: ${err}`,
+          status: 409,
           message: {
-            err: 'An error occurred retrieving user from database. See userController.getOneUser.',
+            err: `An error occurred while checking if username exists. See signupController.usernameCheck., ${err.message}`,
           },
         });
       });
@@ -101,8 +90,6 @@ const userController = {
         }
 
         const verifiedUser = data.rows[0];
-        // sets cookie with cookieID key and uniqueId as it's value
-        res.cookie('cookieID', data.rows[0].id);
         res.locals.user = {
           username: verifiedUser.user1,
           displayName: verifiedUser.display_name,
@@ -122,25 +109,6 @@ const userController = {
       });
   },
 
-  // adding cookie
-  addCookie: (req, res, next) => {
-    res.cookie('loggedIn', true);
-    return next();
-  },
-
-  // verify cookie on refresh
-  checkCookie: (req, res, next) => {
-    if (req.cookies.loggedIn) res.locals.signedIn = true;
-    else res.locals.signedIn = false;
-    return next();
-  },
-
-  // remove cookie on logout
-  removeCookie: (req, res, next) => {
-    res.clearCookie('cookieID');
-    res.locals.loggedOut = true;
-    return next();
-  },
 };
 
 export default userController;

@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import loginRouter from './routes/loginRouter.js';
-import logoutRouter from './routes/logoutRouter.js';
 import signupRouter from './routes/signupRouter.js';
 import locationRouter from './routes/locationRouter.js';
 import userInfoRouter from './routes/userInfoRouter.js';
@@ -27,7 +26,6 @@ app.get('/', (req, res) => {
 
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
 app.use('/location', locationRouter);
 app.use('/userinfo', userInfoRouter);
 

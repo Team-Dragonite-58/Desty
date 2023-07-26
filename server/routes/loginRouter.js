@@ -15,17 +15,8 @@ const router = Router();
 router.post(
   '/',
   userController.verifyUser,
-  // userController.addCookie,
   (req, res) => {
     return res.status(201).json(res.locals.user);
-  }
-);
-
-router.get(
-  '/checkCookie',
-  userController.checkCookie,
-  (req, res) => {
-    return res.status(200).json(res.locals.signedIn);
   }
 );
 

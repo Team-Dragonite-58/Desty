@@ -2,17 +2,16 @@ import db from '../database/cloudModel.js';
 
 const locationController = {
   getLocation: (req, res, next) => {
-    const { tag } = req.body;
+    const { tag, id } = req.body;
     // destructuring the cookieID from req.cookies
-    const usersPK = req.cookies.cookieID;
     let queryString;
     let userDetails;
     if (tag === 'all') {
       queryString = 'SELECT * FROM "locations" WHERE user_id=$1;';
-      userDetails = [usersPK];
+      userDetails = [id];
     } else {
       queryString = 'SELECT * FROM "locations" WHERE user_id=$1 AND tag=$2;';
-      userDetails = [usersPK, tag];
+      userDetails = [id, tag];
     }
     db.query(queryString, userDetails)
       .then(async (data) => {
@@ -31,13 +30,12 @@ const locationController = {
   },
 
   createLocation: (req, res, next) => {
-    const { location, photo_url, tag } = req.body;
+    const { location, photo_url, tag, id } = req.body;
     // destructuring the cookieID from req.cookies
-    const usersPK = req.cookies.cookieID;
 
     const queryString =
       'INSERT INTO locations (location_name, location_url, tag, user_id) VALUES ($1, $2, $3, $4) RETURNING *;';
-    const userDetails = [location, photo_url, tag, usersPK];
+    const userDetails = [location, photo_url, tag, id];
 
     db.query(queryString, userDetails)
       .then(async (data) => {

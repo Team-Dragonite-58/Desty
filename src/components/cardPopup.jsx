@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 
 export default function CardPopup() {
-  // document.body.style.overflow = 'hidden';
   // need a poast request here to create a new item
   return (
     <div className="flex justify-center items-center rounded-xl">
