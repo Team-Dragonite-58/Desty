@@ -18,7 +18,7 @@ export default function EditPopup({ setDisplayName, userId, displayName  }) {
           displayName: displayNameRef.current.value,
         }),
       };
-      const data = await fetch('http://localhost:3001/userinfo/displayname', settings);
+      const data = await fetch('http://localhost:3000/userinfo/displayname', settings);
       const response = await data.json();
       setDisplayName(displayNameRef.current.value);
       //utilize setDisplayName

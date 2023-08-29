@@ -10,6 +10,7 @@ export default function SignupPopup({ setDisplayName, setCurrentLocation, setUse
 
   const signUp = async (e) => {
     e.preventDefault();
+
     try {
       const settings = {
         method: 'POST',
@@ -25,7 +26,7 @@ export default function SignupPopup({ setDisplayName, setCurrentLocation, setUse
           profilePicture: pfpRef.current.value,
         }),
       };
-      const data = await fetch('http://localhost:3001/signup', settings);
+      const data = await fetch('http://localhost:3000/signup', settings);
       const response = await data.json()
       console.log(response)
       setDisplayName(response.displayName)

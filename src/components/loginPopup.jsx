@@ -19,7 +19,7 @@ export default function LoginPopup({ setDisplayName, setCurrentLocation, setUser
           pass: passwordRef.current.value,
         }),
       };
-      const data = await fetch('http://localhost:3001/login', settings);
+      const data = await fetch('http://localhost:3000/login', settings);
       const response = await data.json();
       setDisplayName(response.displayName);
       setUserName(response.username);

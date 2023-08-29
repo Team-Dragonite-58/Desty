@@ -24,7 +24,7 @@ export default function LocationCard(response, setFeedElements, feedElements, ta
           tag: userTag
         }),
       };
-      const data = await fetch('http://localhost:3001/location/delete', settings);
+      const data = await fetch('http://localhost:3000/location/delete', settings);
       const response = await data.json();
       // console.log('delete response',response);
         const locations = response.map((location) => {

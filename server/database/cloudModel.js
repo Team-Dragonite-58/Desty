@@ -3,7 +3,7 @@ const { Pool } = pkg;
 // const { Pool } = require('pg');
 
 const URI =
-  'postgres://mpnpfgrj:ReDFIiOleFZk1FZh7HOHykykyncCKVPa@mahmud.db.elephantsql.com/mpnpfgrj';
+  'postgres://vhelzmkc:xiuGjRmmcnbsmWgXxZ3DYK8_r2pj0ly6@mahmud.db.elephantsql.com/vhelzmkc';
 
 const pool = new Pool({
   // host: 'mahmud.db.elephantsql.com',

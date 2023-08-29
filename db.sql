@@ -9,8 +9,8 @@ CREATE TABLE users (
 CREATE TABLE locations (
     location_id SERIAL PRIMARY KEY,
     location_url VARCHAR(200) NOT NULL,
-    tag VARCHAR(200) NOT NULL
-    location_name VARCHAR(200) NOT NULL
+    tag VARCHAR(200) NOT NULL,
+    location_name VARCHAR(200) NOT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -18,13 +18,13 @@ CREATE TABLE locations (
 
 
 -- funtionally a todo list
-CREATE TABLE location_notes (
-    location_id SERIAL PRIMARY KEY,
-    user_input 
-    location_name VARCHAR(100) NOT NULL
-    location_url VARCHAR(200) NOT NULL,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
-);
+-- CREATE TABLE location_notes (
+--     location_id SERIAL PRIMARY KEY,
+--     user_input ,
+--     location_name VARCHAR(100) NOT NULL,
+--     location_url VARCHAR(200) NOT NULL,
+--     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+-- );
 
 
 
