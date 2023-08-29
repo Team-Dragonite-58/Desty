@@ -3,7 +3,8 @@ CREATE TABLE users (
     display_name VARCHAR(100) NOT NULL,
     user1 VARCHAR(50) UNIQUE NOT NULL,
     hashed_password VARCHAR(100) NOT NULL,
-    current_location VARCHAR(100) NOT NULL
+    current_location VARCHAR(100) NOT NULL,
+    profilepic VARCHAR(200) NOT NULL DEFAULT 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg?w=2000'
 );
 
 CREATE TABLE locations (
