@@ -24,7 +24,7 @@ export default function AddLocationPopup({ tag, setFeedElements, feedElements, u
           id: userId
         }),
       };
-      const data = await fetch('http://localhost:3001/location', settings);
+      const data = await fetch('http://localhost:3000/location', settings);
       const response = await data.json();
       console.log('created',response);
       //use setFeedElements here

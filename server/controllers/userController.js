@@ -51,8 +51,8 @@ const userController = {
     db.query(checkUsernameExists, [user])
       .then((data) => {
         // if row 0 or username already exists, throw error
-        console.log('data.rows: ', data.rows);
-        console.log('data.rows[0]: ', data.rows[0]);
+        // console.log('data.rows: ', data.rows);
+        // console.log('data.rows[0]: ', data.rows[0]);
         if (data.rows[0]) {
           res.locals.duplicated = { message: 'Username already exists.' };
           return next();

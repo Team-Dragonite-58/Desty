@@ -15,7 +15,7 @@ const locationController = {
     }
     db.query(queryString, userDetails)
       .then(async (data) => {
-        console.log('data.rows', data.rows);
+        // console.log('data.rows', data.rows);
         res.locals.locations = data.rows;
         return next();
       })
@@ -30,7 +30,7 @@ const locationController = {
   },
   deleteLocation: (req, res, next)=>{
     const { location_id } = req.body;
-    console.log('req.body', req.body);
+    // console.log('req.body', req.body);
     let queryText;
       queryText = {
         text: 'DELETE FROM locations WHERE location_id=$1',
@@ -60,7 +60,7 @@ const locationController = {
 
     db.query(queryString, userDetails)
       .then(async (data) => {
-        console.log(data);
+        // console.log(data);
         res.locals.locationsList = data.rows[0];
         return next();
       })

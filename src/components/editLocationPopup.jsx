@@ -18,7 +18,7 @@ export default function EditLocationPopup({ setCurrentLocation, currentLocation,
           current_location: currentLocationRef.current.value,
         }),
       };
-      const data = await fetch('http://localhost:3001/userinfo/currentlocation', settings);
+      const data = await fetch('http://localhost:3000/userinfo/currentlocation', settings);
       const response = await data.json();
       setCurrentLocation(currentLocationRef.current.value)
       //utilize setDisplayName

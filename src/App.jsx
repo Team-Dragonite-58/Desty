@@ -31,7 +31,7 @@ function App() {
             id,
           }),
         };
-        const data = await fetch("http://localhost:3001/location/get",settings);
+        const data = await fetch("http://localhost:3000/location/get",settings);
         const response = await data.json();
         const locations = response.map((location) => {
           return new LocationCard(location, setFeedElements, feedElements, tag)
